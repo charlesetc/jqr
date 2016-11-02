@@ -53,7 +53,7 @@ jq% .
 
 # problems
 
-If you index into a json blob, you can't go back. �\_(ツ)_/¯
+If you index into a json blob, you can't go back. ¯\_(ツ)_/¯
 
 # license
 
