@@ -1,0 +1,14 @@
+{
+    "_id": "5819adaff07b745f0c13b00b",
+    "index": 0,
+    "guid": "b3042e42-b3ed-4f4f-aa9f-ac02eef6e65a",
+    "isActive": false,
+    "balance": "$1,208.06",
+    "picture": "http://placehold.it/32x32",
+    "age": 26,
+    "eyeColor": "brown",
+    "name": {
+      "first": "Lawson",
+      "last": "Bowman"
+    }
+}

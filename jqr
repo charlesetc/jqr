@@ -1,0 +1,54 @@
+#!/bin/bash
+jq_pipe_in=$(mktemp)
+jq_pipe_out=$(mktemp)
+# default parameter is {}
+echo "{}" > $jq_pipe_in
+
+function check_error() {
+  if [ "$?" != "0" ]
+  then
+    echo "invalid json when reading from $1"
+    exit 1
+  fi
+}
+
+function show_help() {
+  echo "usage: $0 [-h | -f file | -i]"
+  echo "-f reads json from a file"
+  echo "-i reads from stdin"
+}
+
+while getopts ":f:hi" opt; do
+  case "$opt" in
+    h)
+      show_help
+      exit 0
+      ;;
+    f)
+      echo $OPTARG
+      cat $OPTARG | jq . -s > $jq_pipe_in
+      check_error "file $OPTARG"
+      ;;
+    i)
+      cat | jq . -s > $jq_pipe_in
+      check_error "stdin"
+      ;;
+  esac
+done
+
+# Clean up when we're done
+function finish() {
+  rm $jq_pipe_in
+  rm $jq_pipe_out
+}
+trap finish EXIT
+
+while read -r -p "jq% " line </dev/tty
+  do
+  cat $jq_pipe_in | jq "$line" > $jq_pipe_out
+  if [ "$?" = "0" ]
+  then
+    cat $jq_pipe_out > $jq_pipe_in
+  fi
+  cat $jq_pipe_out
+done
